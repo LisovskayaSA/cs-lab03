@@ -19,7 +19,6 @@ input_numbers(size_t count)
 
 
 
-
 vector<size_t>
 make_histogram(const vector<double>& numbers, size_t bin_count)
 {
@@ -107,11 +106,9 @@ int main()
 
     //для палок-разделителей
     size_t line_length;
-    cerr << "Enter line lenght: ";
-    cin >> line_length;
     size_t separator_lenght;
-    cerr << "Enter separator lenght: ";
-    cin >> separator_lenght;
+    Enter_separator(line_length, separator_lenght);
+
 
     //расчет гистограммы
 

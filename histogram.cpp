@@ -1,6 +1,6 @@
 #include "histogram.h"
 
-using namespace std;
+
 
 void
 find_minmax(const vector<double>& numbers, double& min, double& max)
@@ -24,4 +24,12 @@ find_minmax(const vector<double>& numbers, double& min, double& max)
     }
 }
 
+void Enter_separator(size_t &line_length, size_t &separator_lenght){
+
+    cerr << "Enter line lenght: ";
+    cin >> line_length;
+
+    cerr << "Enter separator lenght: ";
+    cin >> separator_lenght;
+}
 

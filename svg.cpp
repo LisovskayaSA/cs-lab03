@@ -56,6 +56,7 @@ show_histogram_svg(const vector<size_t>& bins, size_t image_width, size_t line_l
     svg_begin(image_width, IMAGE_HEIGHT);
 
     double top = 0;
+    size_t gap = 6;
     for (size_t bin : bins)
     {
         double bin_width = BLOCK_WIDTH * bin;
@@ -66,9 +67,10 @@ show_histogram_svg(const vector<size_t>& bins, size_t image_width, size_t line_l
         svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin));
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, "gold", "#ff00ff");
         if (top > 0){
-        svg_separator(TEXT_WIDTH, top, image_width, top, line_length, separator_lenght);
+        svg_separator(TEXT_WIDTH, (top-(gap/2)), image_width, (top-(gap/2)), line_length, separator_lenght);
         }
         top += BIN_HEIGHT;
+        top += gap;
     }
     svg_end();
 }
