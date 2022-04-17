@@ -130,7 +130,7 @@ void svg_rect(double x, double y, double width, double height, string stroke = "
 }
 
 void
-show_histogram_svg(const vector<size_t>& bins)
+show_histogram_svg(const vector<size_t>& bins, size_t image_width)
 {
     const auto IMAGE_WIDTH = 400;
     const auto IMAGE_HEIGHT = 300;
@@ -139,14 +139,25 @@ show_histogram_svg(const vector<size_t>& bins)
     const auto TEXT_WIDTH = 50;
     const auto BIN_HEIGHT = 30;
     const auto BLOCK_WIDTH = 10;
-    svg_begin(IMAGE_WIDTH, IMAGE_HEIGHT);
-    /*svg_text(TEXT_LEFT, TEXT_BASELINE, to_string(bins[0]));
-    svg_rect(TEXT_WIDTH, 0, bins[0] * BLOCK_WIDTH, BIN_HEIGHT);*/
+
+    size_t max_bin;
+    for(size_t bin: bins){
+        if (bin > max_bin){
+            max_bin = bin;
+        }
+    }
+    auto max_width = BLOCK_WIDTH * max_bin;
+    const size_t max_show_width = image_width - TEXT_WIDTH;
+    svg_begin(image_width, IMAGE_HEIGHT);
 
     double top = 0;
     for (size_t bin : bins)
     {
-        const double bin_width = BLOCK_WIDTH * bin;
+        double bin_width = BLOCK_WIDTH * bin;
+        if(max_show_width < max_width)
+        {
+            bin_width = static_cast<double>(bin_width) / max_width * max_show_width;
+        }
         svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin));
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, "gold", "#ff00ff");
         top += BIN_HEIGHT;
@@ -167,6 +178,10 @@ int main()
     cerr << "Enter bin count: ";
     cin >> bin_count;
 
+    size_t image_width;
+    cerr << "Enter width of image: ";
+    cin >> image_width;
+
 
     //расчет гистограммы
 
@@ -177,7 +192,7 @@ int main()
     const auto bins = make_histogram(numbers, bin_count);
 
     //вывод гистограммы
-    show_histogram_svg(bins);
+    show_histogram_svg(bins, image_width);
 
 
     return 0;
