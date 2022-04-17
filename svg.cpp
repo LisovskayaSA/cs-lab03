@@ -29,8 +29,13 @@ void svg_rect(double x, double y, double width, double height, string stroke, st
     << "' stroke='"<< stroke << "' fill='"<< fill<<"'/>\n";
 }
 
+void svg_separator(double x, double y, double width, double height, size_t lin, size_t sep){
+cout << "<line x1='"<<x<<"' y1='"<<y<<"' x2='"
+<<width<<"' y2='"<< height<< "' stroke='black' stroke-dasharray ='" << lin << " " << sep << "' />'";
+}
+
 void
-show_histogram_svg(const vector<size_t>& bins, size_t image_width)
+show_histogram_svg(const vector<size_t>& bins, size_t image_width, size_t line_length, size_t separator_lenght)
 {
     const auto IMAGE_WIDTH = 400;
     const auto IMAGE_HEIGHT = 300;
@@ -60,6 +65,9 @@ show_histogram_svg(const vector<size_t>& bins, size_t image_width)
         }
         svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin));
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, "gold", "#ff00ff");
+        if (top > 0){
+        svg_separator(TEXT_WIDTH, top, image_width, top, line_length, separator_lenght);
+        }
         top += BIN_HEIGHT;
     }
     svg_end();

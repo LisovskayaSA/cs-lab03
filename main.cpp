@@ -122,7 +122,7 @@ int main()
     const auto bins = make_histogram(numbers, bin_count);
 
     //вывод гистограммы
-    show_histogram_svg(bins, image_width);
+    show_histogram_svg(bins, image_width, line_length, separator_lenght);
 
 
     return 0;
