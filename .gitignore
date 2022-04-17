@@ -1,4 +1,7 @@
 bin/
 lab03.depend
+lab03-test/
+lab03.layout
+
 obj/
 
