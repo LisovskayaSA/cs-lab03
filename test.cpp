@@ -1,5 +1,6 @@
 #include "histogram.h"
 #include "svg.h"
+#include <ostream>
 
 #include <cassert>
 
@@ -44,6 +45,18 @@ test_empty() {
     assert(max == 0);
 }
 
+void
+triplePositive() {
+
+    stringstream stream;
+    string str = "<line x1='0' y1='0' x2='100' y2='100' stroke='black' stroke-dasharray ='25 10' />'";
+    svg_separator(0,0, 100, 100, 25, 10, stream);
+    string str2;
+    getline(stream,str2);
+    cout<<str2;
+    assert(str2 == str);
+}
+
 int
 main() {
     test_positive();
@@ -51,4 +64,5 @@ main() {
     test_same_numbers();
     test_one_number();
     test_empty();
+    triplePositive();
 }
