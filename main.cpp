@@ -22,18 +22,24 @@ input_numbers(istream& in, size_t count)
 }
 
 Input
-read_input(istream& in) {
+read_input(istream& in, bool prompt) {
     Input data;
 
+    if(prompt){
     cerr << "Enter number count: ";
+    }
     size_t number_count;
     in >> number_count;
 
+    if(prompt){
     cerr << "Enter numbers: ";
+    }
     data.numbers = input_numbers(in, number_count);
 
     size_t bin_count;
+    if(prompt){
     cerr << "Enter bin count: ";
+    }
     cin >> bin_count;
 
     return data;
@@ -52,7 +58,7 @@ int main()
     cerr << "Enter bin count: ";
     cin >> bin_count;*/
     struct Input data;
-    data = read_input(cin);
+    data = read_input(cin,true);
 
     size_t image_width;
     cerr << "Enter width of image: ";
