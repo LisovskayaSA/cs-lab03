@@ -44,9 +44,23 @@ read_input(istream& in, bool prompt) {
     return data;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    //curl_global_init(CURL_GLOBAL_ALL);
+
+    if (argc > 1)
+    {
+        curl_global_init(CURL_GLOBAL_ALL);
+        CURL* curl = curl_easy_init();
+        if(curl)
+        {
+            CURLcode res;
+            curl_easy_setopt(curl, CURLOPT_URL, argv[1]);
+            res = curl_easy_perform(curl);
+        }
+        curl_easy_cleanup(curl);
+        return 0;
+    }
+
     //ввод данных
     /*size_t number_count;
     cerr << "Enter number count: ";
