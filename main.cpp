@@ -2,6 +2,7 @@
 #include <vector>
 #include <istream>
 #include <sstream>
+#include <string>
 #include "histogram.h"
 #include "svg.h"
 #include <curl/curl.h>
@@ -41,28 +42,62 @@ read_input(istream& in, bool prompt) {
     }
     in >> data.bin_count;
 
+    if(prompt){
+    cerr << "Enter width of image: ";
+    }
+    in >> data.image_width;
+
+
     return data;
 }
 
-int main(int argc, char* argv[])
-{
+size_t
+write_data(void* items, size_t item_size, size_t item_count, void* ctx) {
+    size_t data_size = item_size * item_count;
+    stringstream* buffer = reinterpret_cast<stringstream*>(ctx);
+    buffer->write(reinterpret_cast<char*>(items), data_size);
+    return data_size;
+}
 
-    if (argc > 1)
-    {
-        curl_global_init(CURL_GLOBAL_ALL);
+Input
+download(const string& address) {
+    stringstream buffer;
+
+    curl_global_init(CURL_GLOBAL_ALL);
         CURL* curl = curl_easy_init();
         if(curl)
         {
             CURLcode res;
-            curl_easy_setopt(curl, CURLOPT_URL, argv[1]);
+            curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
             res = curl_easy_perform(curl);
             if (res != CURLE_OK){
                 cerr << curl_easy_strerror(res);
                 exit(1);
             }
+            long req;
+            res = curl_easy_getinfo(curl, CURLINFO_REQUEST_SIZE, &req);
+            cerr << "REQUEST_SIZE: " << req << endl;
         }
         curl_easy_cleanup(curl);
-        return 0;
+
+    return read_input(buffer, false);
+}
+
+
+
+int main(int argc, char* argv[])
+{
+
+    Input input;
+    if (argc > 1)
+    {
+        input = download(argv[1]);
+
+    }
+    else {
+        input = read_input(cin, true);
     }
 
     //ввод данных
@@ -75,11 +110,7 @@ int main(int argc, char* argv[])
     size_t bin_count;
     cerr << "Enter bin count: ";
     cin >> bin_count;*/
-    struct Input data;
-    data = read_input(cin,true);
-    size_t image_width;
-    cerr << "Enter width of image: ";
-    cin >> image_width;
+
 
     //для палок-разделителей
     /*size_t line_length;
@@ -93,11 +124,11 @@ int main(int argc, char* argv[])
 
     double min;
     double max;
-    find_minmax(data.numbers,min,max);
-    const auto bins = make_histogram(data);
+    find_minmax(input.numbers,min,max);
+    const auto bins = make_histogram(input);
 
     //вывод гистограммы
-    show_histogram_svg(bins, image_width);
+    show_histogram_svg(bins, input.image_width);
 
 
     return 0;

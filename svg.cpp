@@ -58,7 +58,6 @@ show_histogram_svg(const vector<size_t>& bins, size_t image_width)
         {
             bin_width = static_cast<double>(bin_width) / max_width * max_show_width;
         }
-        cerr<<max_width;
         svg_text(TEXT_LEFT, top + TEXT_BASELINE, to_string(bin));
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, "gold", "#ff00ff");
         top += BIN_HEIGHT;

@@ -9,6 +9,7 @@ using namespace std;
 struct Input {
     vector<double> numbers;
     size_t bin_count;
+    size_t image_width;
 };
 
 vector<size_t>
