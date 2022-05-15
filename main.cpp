@@ -106,12 +106,12 @@ int main()
     cin >> image_width;
 
     //для палок-разделителей
-    size_t line_length;
+    /*size_t line_length;
     cerr << "Enter line lenght: ";
     cin >> line_length;
     size_t separator_lenght;
     cerr << "Enter separator lenght: ";
-    cin >> separator_lenght;
+    cin >> separator_lenght;*/
 
     //расчет гистограммы
 
