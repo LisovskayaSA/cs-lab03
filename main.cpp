@@ -4,6 +4,7 @@
 #include <sstream>
 #include "histogram.h"
 #include "svg.h"
+#include <curl/curl.h>
 
 using namespace std;
 
@@ -13,7 +14,6 @@ vector<double>
 input_numbers(istream& in, size_t count)
 {
     vector<double> result(count);
-    cerr << "Enter numbers: ";
     for(size_t i = 0; i < count; i++)
     {
         in >> result[i];
@@ -36,17 +36,17 @@ read_input(istream& in, bool prompt) {
     }
     data.numbers = input_numbers(in, number_count);
 
-    size_t bin_count;
     if(prompt){
     cerr << "Enter bin count: ";
     }
-    cin >> bin_count;
+    in >> data.bin_count;
 
     return data;
 }
 
 int main()
 {
+    //curl_global_init(CURL_GLOBAL_ALL);
     //ввод данных
     /*size_t number_count;
     cerr << "Enter number count: ";
@@ -59,7 +59,6 @@ int main()
     cin >> bin_count;*/
     struct Input data;
     data = read_input(cin,true);
-
     size_t image_width;
     cerr << "Enter width of image: ";
     cin >> image_width;
@@ -77,7 +76,6 @@ int main()
     double min;
     double max;
     find_minmax(data.numbers,min,max);
-
     const auto bins = make_histogram(data);
 
     //вывод гистограммы
