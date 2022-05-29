@@ -93,8 +93,14 @@ int main()
 {
     DWORD dwVersion = 0;
     dwVersion = GetVersion();
+    DWORD mask =0x0000ffff;
+    DWORD version = dwVersion & mask;
+    DWORD dwMajorVersion = version & 0x00ff;
+    DWORD dwMinorVersion = version & 0xff00;
     printf("dwVersion = %u\n", dwVersion);
     printf("dwVersion = %08x\n", dwVersion);
+    printf("dwMajorVersion = %u\n", dwMajorVersion);
+    printf("dwMinorVersion = %u\n", dwMinorVersion);
 
 
 
