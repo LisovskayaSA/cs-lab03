@@ -3,6 +3,7 @@
 #include "histogram.h"
 #include "svg.h"
 #include <windows.h>
+#include <winsock2.h>
 
 using namespace std;
 
@@ -91,17 +92,38 @@ void show_histogram_text(const vector <size_t>& bins)
 
 int main()
 {
-    DWORD dwVersion = 0;
-    dwVersion = GetVersion();
-    DWORD mask =0x0000ffff;
-    DWORD version = dwVersion & mask;
-    DWORD dwMajorVersion = version & 0x00ff;
-    DWORD dwMinorVersion = version & 0xff00;
-    printf("dwVersion = %u\n", dwVersion);
-    printf("dwVersion = %08x\n", dwVersion);
-    printf("dwMajorVersion = %u\n", dwMajorVersion);
-    printf("dwMinorVersion = %u\n", dwMinorVersion);
+    DWORD info = 0;
+    info = GetVersion();
+    DWORD mask = 0x0000ffff;
+    DWORD version = info & mask;
+    DWORD platform = info >> 16;
+    printf("dwVersion = %u\n", info);
+    printf("dwVersion = %08x\n", info);
+    printf("Version = %u\n", version);
+    printf("Platform = %u\n", platform);
+    DWORD MajorVersion = version & 0x00ff;
+    DWORD MinorVersion = version >> 8;
+    printf("dwMajorVersion = %u\n", MajorVersion);
+    printf("dwMinorVersion = %u\n", MinorVersion);
+    if((info & 0x80000000) == 0)
+    {
+        DWORD build = platform;
+        printf("build = %u\n", build);
+    }
 
+    char system_dir[MAX_PATH];
+    GetSystemDirectory(system_dir, MAX_PATH);
+    printf("System directory: %s", system_dir);
+    /*
+
+    DWORD mask =0x0000ffff;
+    DWORD version = info & mask;
+
+    DWORD platform = info >> 16;
+
+
+
+    printf("platform = %08x\n", platform);*/
 
 
     return 0;

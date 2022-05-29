@@ -2,6 +2,7 @@
 #define SVG_H_INCLUDED
 #include <vector>
 #include <iostream>
+#include <string>
 
 
 using namespace std;

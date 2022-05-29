@@ -1,5 +1,11 @@
 #include "svg.h"
 
+
+/*string
+info_system(){
+string
+}*/
+
 void
 svg_begin(double width, double height)
 {
