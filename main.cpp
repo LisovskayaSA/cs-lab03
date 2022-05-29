@@ -111,6 +111,8 @@ download(const string& address) {
             cerr << "REQUEST_SIZE: " << req << endl;
         }
         curl_easy_cleanup(curl);
+
+        return read_input(buffer, false);
 }
 
 

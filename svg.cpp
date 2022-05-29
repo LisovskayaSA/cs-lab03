@@ -128,8 +128,8 @@ show_histogram_svg(const vector<size_t>& bins, size_t image_width, const vector<
         top += BIN_HEIGHT;
         top += gap;
     }
-    svg_text(TEXT_LEFT, top + TEXT_BASELINE, system);
+    svg_text(TEXT_LEFT+TEXT_WIDTH, top + TEXT_BASELINE, system);
     top += BIN_HEIGHT;
-    svg_text(TEXT_LEFT, top + TEXT_BASELINE, name);
+    svg_text(TEXT_LEFT+TEXT_WIDTH, top + TEXT_BASELINE, name);
     svg_end();
 }
