@@ -1,5 +1,42 @@
 #include "svg.h"
 
+
+string
+info_system(){
+string system;
+char buffer[100];
+DWORD info = 0;
+    info = GetVersion();
+    DWORD mask = 0x0000ffff;
+    DWORD version = info & mask;
+    DWORD platform = info >> 16;
+    DWORD MajorVersion = version & 0x00ff;
+    DWORD MinorVersion = version >> 8;
+    sprintf(buffer, "Windows v%u.%u", MajorVersion, MinorVersion);
+    system = buffer;
+    if((info & 0x80000000) == 0)
+    {
+        DWORD build = platform;
+        sprintf(buffer, " build(%u)", build);
+    }
+    system += buffer;
+    return system;
+}
+
+string
+name_of_computer(){
+string name;
+DWORD max_length = MAX_COMPUTERNAME_LENGTH + 1;
+    char computer_name[max_length];
+    GetComputerNameA(computer_name, &max_length);
+    name = computer_name;
+
+return name;
+
+}
+
+
+
 void
 svg_begin(double width, double height)
 {
@@ -36,7 +73,8 @@ void svg_separator(double x, double y, double width, double height, size_t lin, 
 }
 
 void
-show_histogram_svg(const vector<size_t>& bins, size_t image_width, const vector<string>& strings, size_t line_length, size_t separator_lenght)
+show_histogram_svg(const vector<size_t>& bins, size_t image_width, const vector<string>& strings, size_t line_length, size_t separator_lenght, string system, string name)
+
 {
     const auto IMAGE_WIDTH = 400;
     const auto IMAGE_HEIGHT = 300;
@@ -90,5 +128,8 @@ show_histogram_svg(const vector<size_t>& bins, size_t image_width, const vector<
         top += BIN_HEIGHT;
         top += gap;
     }
+    svg_text(TEXT_LEFT, top + TEXT_BASELINE, system);
+    top += BIN_HEIGHT;
+    svg_text(TEXT_LEFT, top + TEXT_BASELINE, name);
     svg_end();
 }

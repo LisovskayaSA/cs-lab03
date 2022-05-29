@@ -6,6 +6,9 @@
 #include "histogram.h"
 #include "svg.h"
 #include <curl/curl.h>
+#include "winsock2.h"
+#include "windows.h"
+
 
 using namespace std;
 
@@ -108,10 +111,7 @@ download(const string& address) {
             cerr << "REQUEST_SIZE: " << req << endl;
         }
         curl_easy_cleanup(curl);
-
-    return read_input(buffer, false);
 }
-
 
 
 int main(int argc, char* argv[])
@@ -130,11 +130,14 @@ int main(int argc, char* argv[])
 
     double min;
     double max;
+
     find_minmax(input.numbers,min,max);
     const auto bins = make_histogram(input);
+    const string system = info_system();
+    const string name = name_of_computer();
 
     //вывод гистограммы
-    show_histogram_svg(bins, input.image_width, input.strings, input.line_length, input.separator_lenght);
+    show_histogram_svg(bins, input.image_width, input.strings, input.line_length, input.separator_lenght, system, name);
 
 
     return 0;
