@@ -2,8 +2,9 @@
 #include <vector>
 #include "histogram.h"
 #include "svg.h"
-#include <windows.h>
-#include <winsock2.h>
+#include "winsock2.h"
+#include "windows.h"
+
 
 using namespace std;
 
@@ -92,41 +93,7 @@ void show_histogram_text(const vector <size_t>& bins)
 
 int main()
 {
-    DWORD info = 0;
-    info = GetVersion();
-    DWORD mask = 0x0000ffff;
-    DWORD version = info & mask;
-    DWORD platform = info >> 16;
-    printf("dwVersion = %u\n", info);
-    printf("dwVersion = %08x\n", info);
-    printf("Version = %u\n", version);
-    printf("Platform = %u\n", platform);
-    DWORD MajorVersion = version & 0x00ff;
-    DWORD MinorVersion = version >> 8;
-    printf("dwMajorVersion = %u\n", MajorVersion);
-    printf("dwMinorVersion = %u\n", MinorVersion);
-    if((info & 0x80000000) == 0)
-    {
-        DWORD build = platform;
-        printf("build = %u\n", build);
-    }
 
-    char system_dir[MAX_PATH];
-    GetSystemDirectory(system_dir, MAX_PATH);
-    printf("System directory: %s", system_dir);
-    /*
-
-    DWORD mask =0x0000ffff;
-    DWORD version = info & mask;
-
-    DWORD platform = info >> 16;
-
-
-
-    printf("platform = %08x\n", platform);*/
-
-
-    return 0;
     //ввод данных
     size_t number_count;
     cerr << "Enter number count: ";
@@ -157,9 +124,11 @@ int main()
     find_minmax(numbers,min,max);
 
     const auto bins = make_histogram(numbers, bin_count);
+    const string system = info_system();
+    const string name = name_of_computer();
 
     //вывод гистограммы
-    show_histogram_svg(bins, image_width);
+    show_histogram_svg(bins, image_width, system, name);
 
 
     return 0;

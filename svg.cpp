@@ -1,10 +1,50 @@
 #include "svg.h"
 
 
-/*string
-info_system(){
 string
-}*/
+info_system(){
+string system;
+system = "Windows v";
+DWORD info = 0;
+    info = GetVersion();
+    DWORD mask = 0x0000ffff;
+    DWORD version = info & mask;
+    DWORD platform = info >> 16;
+    /*printf("dwVersion = %u\n", info);
+    printf("dwVersion = %08x\n", info);
+    printf("Version = %u\n", version);
+    printf("Platform = %u\n", platform);*/
+    DWORD MajorVersion = version & 0x00ff;
+    DWORD MinorVersion = version >> 8;
+    system +=MajorVersion;
+    system +=".";
+    system +=MinorVersion;
+    system +=" (build ";
+    /*printf("dwMajorVersion = %u\n", MajorVersion);
+    printf("dwMinorVersion = %u\n", MinorVersion);*/
+    if((info & 0x80000000) == 0)
+    {
+        DWORD build = platform;
+        printf("build = %u\n", build);
+        system +=build;
+        system +=")";
+    }
+    return system;
+}
+
+string
+name_of_computer(){
+string name;
+DWORD max_length = MAX_COMPUTERNAME_LENGTH + 1;
+    char computer_name[max_length];
+    GetComputerNameA(computer_name, &max_length);
+    name = computer_name;
+
+return name;
+
+}
+
+
 
 void
 svg_begin(double width, double height)
@@ -36,7 +76,7 @@ void svg_rect(double x, double y, double width, double height, string stroke, st
 }
 
 void
-show_histogram_svg(const vector<size_t>& bins, size_t image_width)
+show_histogram_svg(const vector<size_t>& bins, size_t image_width, string system, string name)
 {
     const auto IMAGE_WIDTH = 400;
     const auto IMAGE_HEIGHT = 300;
@@ -68,5 +108,8 @@ show_histogram_svg(const vector<size_t>& bins, size_t image_width)
         svg_rect(TEXT_WIDTH, top, bin_width, BIN_HEIGHT, "gold", "#ff00ff");
         top += BIN_HEIGHT;
     }
+    svg_text(TEXT_LEFT, top + TEXT_BASELINE, system);
+    top += BIN_HEIGHT;
+    svg_text(TEXT_LEFT, top + TEXT_BASELINE, name);
     svg_end();
 }
