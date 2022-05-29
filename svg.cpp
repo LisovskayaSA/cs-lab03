@@ -4,31 +4,22 @@
 string
 info_system(){
 string system;
-system = "Windows v";
+char buffer[100];
 DWORD info = 0;
     info = GetVersion();
     DWORD mask = 0x0000ffff;
     DWORD version = info & mask;
     DWORD platform = info >> 16;
-    /*printf("dwVersion = %u\n", info);
-    printf("dwVersion = %08x\n", info);
-    printf("Version = %u\n", version);
-    printf("Platform = %u\n", platform);*/
     DWORD MajorVersion = version & 0x00ff;
     DWORD MinorVersion = version >> 8;
-    system +=MajorVersion;
-    system +=".";
-    system +=MinorVersion;
-    system +=" (build ";
-    /*printf("dwMajorVersion = %u\n", MajorVersion);
-    printf("dwMinorVersion = %u\n", MinorVersion);*/
+    sprintf(buffer, "Windows v%u.%u", MajorVersion, MinorVersion);
+    system = buffer;
     if((info & 0x80000000) == 0)
     {
         DWORD build = platform;
-        printf("build = %u\n", build);
-        system +=build;
-        system +=")";
+        sprintf(buffer, " build(%u)", build);
     }
+    system += buffer;
     return system;
 }
 
