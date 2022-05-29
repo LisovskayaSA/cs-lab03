@@ -128,28 +128,6 @@ int main(int argc, char* argv[])
         input = read_input(cin, true);
     }
 
-    //ввод данных
-    /*size_t number_count;
-    cerr << "Enter number count: ";
-    cin >> number_count;
-
-    const auto numbers = input_numbers(cin, number_count);
-
-    size_t bin_count;
-    cerr << "Enter bin count: ";
-    cin >> bin_count;*/
-
-
-    //для палок-разделителей
-    /*size_t line_length;
-    cerr << "Enter line lenght: ";
-    cin >> line_length;
-    size_t separator_lenght;
-    cerr << "Enter separator lenght: ";
-    cin >> separator_lenght;*/
-
-    //расчет гистограммы
-
     double min;
     double max;
     find_minmax(input.numbers,min,max);
