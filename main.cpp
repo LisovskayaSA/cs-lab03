@@ -22,6 +22,18 @@ input_numbers(istream& in, size_t count)
     return result;
 }
 
+vector<string>
+input_strings(istream& in, size_t count)
+{
+    in.ignore(32767, '\n');
+    vector<string> strings(count);
+    for(size_t i = 0; i < count; i++)
+    {
+        getline(in,strings[i]);
+    }
+return strings;
+}
+
 Input
 read_input(istream& in, bool prompt) {
     Input data;
@@ -42,10 +54,25 @@ read_input(istream& in, bool prompt) {
     }
     in >> data.bin_count;
 
+    if (prompt){
+        cerr << "Enter strings: ";
+    }
+    data.strings = input_strings(in, data.bin_count);
+
     if(prompt){
     cerr << "Enter width of image: ";
     }
     in >> data.image_width;
+
+    if (prompt){
+    cerr << "Enter line lenght: ";
+    }
+    in >> data.line_length;
+
+    if (prompt){
+    cerr << "Enter separator lenght: ";
+    }
+    in >> data.separator_lenght;
 
 
     return data;
@@ -91,6 +118,7 @@ int main(int argc, char* argv[])
 {
 
     Input input;
+    Input data;
     if (argc > 1)
     {
         input = download(argv[1]);
@@ -128,7 +156,7 @@ int main(int argc, char* argv[])
     const auto bins = make_histogram(input);
 
     //вывод гистограммы
-    show_histogram_svg(bins, input.image_width);
+    show_histogram_svg(bins, input.image_width, input.strings, input.line_length, input.separator_lenght);
 
 
     return 0;

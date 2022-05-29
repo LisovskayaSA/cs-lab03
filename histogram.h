@@ -8,8 +8,11 @@ using namespace std;
 
 struct Input {
     vector<double> numbers;
+    vector<string> strings;
     size_t bin_count;
     size_t image_width;
+    size_t line_length;
+    size_t separator_lenght;
 };
 
 vector<size_t>
