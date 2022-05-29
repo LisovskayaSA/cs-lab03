@@ -2,6 +2,7 @@
 #include <vector>
 #include "histogram.h"
 #include "svg.h"
+#include <windows.h>
 
 using namespace std;
 
@@ -90,6 +91,14 @@ void show_histogram_text(const vector <size_t>& bins)
 
 int main()
 {
+    DWORD dwVersion = 0;
+    dwVersion = GetVersion();
+    printf("dwVersion = %u\n", dwVersion);
+    printf("dwVersion = %08x\n", dwVersion);
+
+
+
+    return 0;
     //ввод данных
     size_t number_count;
     cerr << "Enter number count: ";
